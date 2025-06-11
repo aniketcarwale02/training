@@ -1,0 +1,303 @@
+Advantages of Object-oriented Programming :
+        · Faster and easier to execute
+        · Provides a clear structure for the
+        programs
+        · Makes the code easier to maintain,
+        modify and debug by preventing
+        repetition
+        · Makes it possible to create full reusable
+        applications with less code and shorter
+        development time
+class : template , object : instance 
+Car volvo = new Car();
+Car:This is the class name or data type.
+volvo:It will hold a reference to the Car object created by new Car().
+new:
+        This is the object creation operator.
+        It tells the compiler to:
+        Allocate memory on the heap for a new Car object.
+        Call the constructor Car() to initialize the object.
+        Return a reference to that memory.
+Car volvo;   // No `new`
+So volvo is just a reference that currently points to nothing — it's null by default for reference types.
+
+Class Members : Fields , Properties , Methods 
+
+Constructors:
+. Constructor name must match the class name
+. Constructors can not have a return type
+· All classes have constructors by default
+
+Types of Acess Modifiers
+
+· public: The code is accessible for all classes
+In C#, if a class is declared public, it can be accessed from a different namespace, 
+as long as the referencing code includes the correct using directive
+. private: The code is only accessible within the same class
+. protected: The code is accessible within the same class, or
+  in a class that is inherited from that class
+. internal: The code is only accessible within its own assembly
+BY_DEFAULT : private
+
+Combination Acess Modifiers:
+· protected internal
+· private protected
+
+Encapsulation
+To make sure that "sensitive" data is hidden from users
+· declare fields/variables as private
+· provide public get and set methods, through properties,
+to access and update the value of a private field
+
+properties:
+(color private hai)
+class 1 :
+public string Color {
+    get { return color ;}
+    set { 
+        if(!value.Equals("Red"))
+          color = value; 
+        }
+}
+
+class 2 :
+use :
+Mycar c = new Mycar();
+c.Color = "red";
+Console.WriteLine(c.Color);  
+
+In C#, a shorthand property (also called an auto-implemented property) is a concise way to declare a property
+without manually creating a backing field
+public string Name { get; set; }
+
+Why Encapsulation?
+. Better control of class members (reduce the possibility
+  of yourself (or others) to mess up the code)
+. Fields can be made read-only (if you only use the get
+  method), or write-only (if you only use the set method)
+. Flexible: the programmer can change one part of the
+  code without affecting other parts
+-Increased security of data
+
+Inheritance :
+class Car : vehicle {
+
+}
+single level,Multilevel,Hierarchical Inheritance
+C# does not support multiple inheritance of classes directly to avoid the diamond problem, but you can implement multiple interfaces.
+interface IWalk {
+    void Walk();
+}
+
+interface ITalk {
+    void Talk();
+}
+
+class Robot : IWalk, ITalk {
+    public void Walk() => Console.WriteLine("Walking...");
+    public void Talk() => Console.WriteLine("Talking...");
+}
+
+sealed class can't be inherited
+
+Polymorphism : 
+
+Method Overloading :
+Static (early binding)
+The method to be called is determined at compile time, 
+based on argument types 
+
+Method Overriding:
+Runtime , Dynamic (late binding)
+Method Hiding vs Overriding:
+Use new when you want to hide a method, not override it.
+Overriding requires virtual in base and override in child.
+
+Animal myAnimal = new Animal(); // Create a Animal object
+Animal myPig = new Pig(); // Create a Pig object
+Animal myDog = new Dog(); // Create a Dog object
+
+myAnimal.animalSound();
+myPig.animalSound();// if virtual and override use nhi kiya to then animal(reference type) class ka fun run ho jayega
+myDog. animalSound();
+
+In C#, abstraction is an object-oriented programming concept that hides implementation details and shows only the essential features of an object.
+It allows you to define what an object does without specifying how it does it.
+
+Why Use Abstraction?
+To reduce complexity.
+To separate interface from implementation.
+To improve security by exposing only necessary components.
+
+use : Abstract Class and Interface
+Abstract Class :An abstract class cannot be instantiated. 
+It can have abstract methods (without implementation) and concrete methods (with implementation).
+(override chiye)
+
+Interface :
+(override nhi chiye)
+✅ All methods in an interface are implicitly public and abstract.
+An interface defines a contract: 
+a set of methods or properties that a class must implement.
+
+Feature	
+Abstract Class:One abstract class,
+Interface:Multiple interfaces
+Access modifiers:Allowed,Not allowed (members are public)
+Constructors:Can have,Cannot have
+Fields:Can have fields	,Cannot have fields
+Use case:Partial abstraction,Full abstraction (contract)
+
+Why And When To Use Interfaces?
+. To achieve security - hide certain details and only show the important
+details of an object (interface).
+. C# does not support "multiple inheritance" (a class can only inherit
+from one base class). However, it can be achieved with interfaces,
+because the class can implement multiple interfaces. Note: To
+implement multiple interfaces, separate them with a comma.
+
+class DemoClass : IFirstinterface, ISecondinterface
+
+STATIC :
+The static keyword in C# is used to declare members (like methods, variables, constructors) 
+and classes that belong to the type itself, not to any specific instance of the class
+can't access non-static variables from static method
+What does static mean?
+No object required to access static members.
+Shared across all instances of a class.
+Memory for static members is allocated only once, at the class level.
+
+Static Class:
+Cannot be instantiated.
+Can only contain static members.
+Often used for utility/helper classes.
+int result = MathHelper.Square(5);  // OK
+// MathHelper obj = new MathHelper(); ❌ Not allowed
+
+Static Constructor:
+Initializes static members.
+Runs only once, automatically before any static member is accessed.
+Cannot take parameters.
+You cannot call it manually.
+
+Limitation of static keyword:
+. A static member cannot be referenced through an
+instance.
+. In C#, it is not allowed to use this to reference static
+methods or property accessors.
+. In C#, if static keyword is used with the class, then the
+statie elase alwave sentain static members.
+
+
+Enums:
+Enums (short for enumerations) in C# are a special value type used to define a set of named constants. They make code more readable, manageable, and type-safe, especially when working with predefined values.
+mostly used with switch , define outside the class in name space
+can add specific values for it (typecast) (int)Level.hard
+OrderStatus status = OrderStatus.Shipped;
+
+Console.WriteLine(status);         // Output: Shipped
+Console.WriteLine((int)status);    // Output: 30
+
+
+Collections:
+In C#, collections are used to store, manage, and manipulate groups of related objects. 
+Collections are part of the System.Collections, System.Collections.Generic,
+and System.Collections.Concurrent namespaces.
+
+Collections provide:
+Dynamic sizing (unlike arrays)
+Flexible data manipulation
+Rich APIs for sorting, filtering, searching, etc.
+
+1) Generic Collection:
+Generic collections
+· A generic collection enforces strong
+typing by allowing only the desired
+data type to be added.
+· These type of collections are useful
+when every item in the collection
+has the same data type.
+
+(Type-safe, preferred)
+Namespace: System.Collections.Generic
+Collection Type	Description
+List<T>	A dynamic array of type T
+Dictionary<TKey,TValue>	Key-value store (like a map or JSON object)
+HashSet<T>	Unordered unique items
+Queue<T>	FIFO queue for type T
+Stack<T>	LIFO stack for type T
+SortedList<TKey,TValue>	Sorted key-value list
+
+List : Add()O(1),Addrange(),Capacity,Count,Insert(index,value)O(n),RemoveAt(index),Remove()(first elements),Clear(),Contains(obj)
+Dictionary : Add(key,obj),Remove(key),ContainsKey(key)O(1),ContainsValue()O(n),Clear(),dict[1]="", dict.tryGetValue(key,out string value): true,false
+list[0] = "tomato"
+
+
+
+2)Non-Generic Collections:
+Non-Generic collections
+        · These collections do not store elements as specifically typed objects, but as
+          objects of type Object.
+          Have slower performance and runtime issues due to casting.
+          Considered legacy types.
+        . Whenever possible, you should use generic collections instead of non-generic
+          collections
+(Legacy, not type-safe)
+Namespace: System.Collections
+Collection Type	Description
+ArrayList	Dynamically sized array
+Hashtable	Key-value pairs (like a map)
+Stack	LIFO (Last-In-First-Out)
+Queue	FIFO (First-In-First-Out)
+❌ These are not type-safe, meaning you can store any object, which can lead to runtime errors.
+ 
+3) Concurrent Class:
+· Provides several thread-safe collections.
+· Should be used in place of the corresponding
+  generic or non-generic collection whenever
+  multiple threads are accessing the collection
+  concurrently.
+
+Examples
+ConcurrentBag<T>
+ConcurrentDictionary<TKey,TValue>
+ConcurrentQueue<T>
+ConcurrentStack<T>
+
+Generics :
+Generics in C# allow you to define classes, methods, interfaces, and delegates with a placeholder for the data type. 
+This lets you write code that works with any type while maintaining type safety and performance.
+
+.
+
+🧠 Why Use Generics?
+Without generics, you might use object, which leads to:
+. Boxing/unboxing for value types (performance hit)
+. Type casting (runtime errors)
+. Loss of compile-time type checking
+
+Generics solve these issues by allowing you to specify a type parameter.
+
+swap fn:
+Swap(ref a,ref b)
+static void Swap(ref int a , ref int b){
+    int temp = a;
+    a=b;
+    b=temp;
+}
+if for string then new fn?No 
+just use T
+static void Swap<T>(ref T a , ref T b){
+    T temp = a;
+    a=b;
+    b=temp;
+}
+
+List<int> is a generic type
+ArrayList : bad performance due to casting (upcast ,downcast)(to and from object)
+
+
+
+
+
+

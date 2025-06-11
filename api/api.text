@@ -1,0 +1,78 @@
+REST API :
+  why GET for read operations, POST for create, PUT for update, DELETE for delete?
+        🔹 GET → Read
+        ✅ Deep Reason:
+        Safe: GET must not change the server state — it's designed to only read data.
+
+        Idempotent: Multiple identical GET requests = same result.
+
+        Cacheable: Proxies and browsers know GET is safe, so they cache aggressively.
+
+        URL-based: Easy to bookmark, share, index by search engines, etc.
+
+        Imagine if every time you visited a blog post, the server updated the database — that would be insane. GET ensures read-only access.
+
+        🔒 Security Implication:
+        CSRF attacks are harder with GET because it's meant to be non-mutative.
+
+        No sensitive data in query string.
+
+        🔹 POST → Create
+        ✅ Deep Reason:
+        Non-idempotent: Creating the same record twice results in two new records.
+
+        Carries data in body: Ideal for larger or sensitive payloads.
+
+        Triggers a change: Posts signal “Do something” — save to DB, send email, etc.
+
+        If you're submitting a new user registration or posting a message — you're creating a resource, so POST makes sense.
+
+        🚫 Why not use GET for this?
+        URLs would contain user data (?name=John&password=123) — insecure and limitable.
+
+        Can be cached/replayed — leads to accidental duplication.
+
+        🔹 PUT → Update
+        ✅ Deep Reason:
+        Idempotent: Repeating a PUT with the same data results in the same final state.
+
+        Complete replacement: PUT usually means “replace the resource at this URI”.
+
+        Imagine you update your profile — sending the whole object (PUT /users/123) makes sense.
+
+        ✳️ Idempotency Is Key:
+        With retries (e.g., if the network drops), you don’t want side effects.
+
+        Safe to repeat: update user name 5 times with the same payload = same result.
+
+        🔹 DELETE → Delete
+        ✅ Deep Reason:
+        Idempotent: Deleting the same resource repeatedly results in "gone".
+
+        Semantic clarity: Clients, caches, tools (like Postman or browsers) know exactly what this is doing.
+
+        If you delete a user account: whether you send DELETE /users/123 once or five times, the user should be gone.
+
+        🛡 System Design Impact:
+        Server knows how to log, audit, or restrict destructive actions.
+        Middleware like API Gateways can intercept DELETE for extra auth checks.
+
+        🔄 Why We Care About These Differences
+        1. Scalability
+        CDNs and caches work best with GET (because it’s predictable).
+
+        Knowing POST mutates data lets load balancers avoid caching it.
+
+        2. Safety & Idempotency
+        With PUT and DELETE, clients can safely retry after failure.
+
+        With POST, retries must be handled carefully to avoid duplication.
+
+        3. Auditing & Logging
+        You can trace who created vs updated vs deleted a resource just by HTTP verb.
+
+        4. Security & Authorization
+        Role-based access can be verb-specific (e.g., “this user can GET but not DELETE”).
+
+        Firewalls and API Gateways can inspect and allow/deny methods differently.
+
